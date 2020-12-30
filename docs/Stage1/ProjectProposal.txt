@@ -1,0 +1,13 @@
+
+Developing a Tool for Collaborative Cinematic VR Production 
+
+Desenvolvimento de uma ferramenta (em Unreal Engine) que permita ao utilizador recorrer a hardware de realidade virtual para construir cenários virtuais em colaboração (em tempo real) com outros utilizadores e renderizar vídeos 360 de animações nesses mesmos cenários.
+
+Detalhes extra:
+- Desenvolvido para Oculus Quest (free movement), permitindo utilizadores passivos com Google Cardboard
+- Colaboração em tempo real local (com a possibilidade de no futuro puder ser também remota)
+- Construção dos cenários feita através de inventário de objetos, sons e de animações (permitindo a adição de novos assets pelo utilizador)
+- Criação e controle de câmeras virtuais (full hd e 360)
+- Operações aplicáveis a objetos individuais, grupos ou globalmente
+- Movimentação nos cenários andando na sala ou através de teletransporte por comando
+- Painel de vídeo virtual para produção de filme (record, switch camera, etc.)
