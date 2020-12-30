@@ -13,17 +13,19 @@ Production tool for VR artists and project managers, with focus on collaborative
 
 2. Download this repository and make sure the 'External' folder inside the Unity project directory isn't empty.
 
-3. Open the 'External' folder inside the Unity project directory and run the .bat (for Windows users) or .sh (for Linux users) file with admin priviledges (only tested for Windows).
+3. Open the 'Assets' folder inside the Unity project directory and delete the 'MixedRealityToolkit.Generated' folder and the 'MRTK' shortcut. Also delete the corresponding .meta files.
 
-4. Open the project inside Unity, wait for updates to be completed (if needed) and accept the notification that pops up once the project is open.
+4. Open the 'External' folder inside the Unity project directory and run the .bat (for Windows users) or .sh (for Linux users) file with admin priviledges (only tested for Windows).
 
-5. Some errors should appear on the command line. Download and import the Oculus Integration Unity package in order to solve them.
+5. Open the project inside Unity, wait for updates to be completed (if needed) and accept the notification that pops up once the project is open.
 
-6. Upgrade plugins and restart the project (if needed).
+6. Some errors should appear on the command line. Download and import the Oculus Integration Unity package in order to solve them.
 
-7. Turn on your Oculus Quest and connect it to the computer running the Unity project using the link cable.
+7. Upgrade plugins and restart the project (if needed).
 
-8. Select File > Build Settings > Android, on the 'Run Device' select the Oculus Quest and then click on 'Switch Platform'.
+8. Turn on your Oculus Quest and connect it to the computer running the Unity project using the link cable.
+
+9. Select File > Build Settings > Android, on the 'Run Device' select the Oculus Quest and then click on 'Switch Platform'.
 
 ## Authors:
 

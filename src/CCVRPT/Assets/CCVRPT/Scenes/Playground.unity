@@ -490,6 +490,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2665847549521150359, guid: 2dd3774487d87724694f0047294da309,
+        type: 3}
+      propertyPath: requireFlatHand
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2665847549521150359, guid: 2dd3774487d87724694f0047294da309,
+        type: 3}
+      propertyPath: useGazeActivation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2665847549521150359, guid: 2dd3774487d87724694f0047294da309,
+        type: 3}
+      propertyPath: onLastHandLost.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 471643783}
+    - target: {fileID: 2665847549521150359, guid: 2dd3774487d87724694f0047294da309,
+        type: 3}
+      propertyPath: onLastHandLost.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 2665847549521150359, guid: 2dd3774487d87724694f0047294da309,
+        type: 3}
+      propertyPath: onFirstHandDetected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 471643783}
+    - target: {fileID: 2665847549521150359, guid: 2dd3774487d87724694f0047294da309,
+        type: 3}
+      propertyPath: onFirstHandDetected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
     - target: {fileID: 3307930098594596158, guid: 2dd3774487d87724694f0047294da309,
         type: 3}
       propertyPath: m_Mesh
@@ -630,6 +660,12 @@ PrefabInstance:
 --- !u!4 &471643782 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2665847549521150358, guid: 2dd3774487d87724694f0047294da309,
+    type: 3}
+  m_PrefabInstance: {fileID: 471643781}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &471643783 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8198245484797715310, guid: 2dd3774487d87724694f0047294da309,
     type: 3}
   m_PrefabInstance: {fileID: 471643781}
   m_PrefabAsset: {fileID: 0}
