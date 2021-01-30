@@ -34,7 +34,6 @@ namespace Oculus.Platform
       CAPI.ovr_ChallengeOptions_SetIncludePastChallenges(Handle, value);
     }
 
-    /// Optional: Only find challenges belonging to this leaderboard.
     public void SetLeaderboardName(string value) {
       CAPI.ovr_ChallengeOptions_SetLeaderboardName(Handle, value);
     }
@@ -56,7 +55,7 @@ namespace Oculus.Platform
     }
 
 
-    /// For passing to native C
+    // For passing to native C
     public static explicit operator IntPtr(ChallengeOptions options) {
       return options != null ? options.Handle : IntPtr.Zero;
     }

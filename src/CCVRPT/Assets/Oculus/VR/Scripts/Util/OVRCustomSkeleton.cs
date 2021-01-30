@@ -1,8 +1,12 @@
 /************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
-https://developer.oculus.com/licenses/oculussdk/
+Licensed under the Oculus Master SDK License Version 1.0 (the "License"); you may not use
+the Utilities SDK except in compliance with the License, which is provided at the time of installation
+or download, or which otherwise accompanies this software in either electronic or hard copy form.
+
+You may obtain a copy of the License at
+https://developer.oculus.com/licenses/oculusmastersdk-1.0/
 
 Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
 under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
@@ -19,18 +23,10 @@ using UnityEngine;
 public class OVRCustomSkeleton : OVRSkeleton
 {
 	[SerializeField]
-	private bool _applyBoneTranslations = true;
-
-	[HideInInspector]
-	[SerializeField]
-	private List<Transform> _customBones_V2 = new List<Transform>(new Transform[(int)BoneId.Max]);
+	private List<Transform> _customBones = new List<Transform>(new Transform[(int)BoneId.Max]);
 
 #if UNITY_EDITOR
-
-	private static readonly string[] _fbxHandSidePrefix = { "l_", "r_" };
-	private static readonly string _fbxHandBonePrefix = "b_";
-
-	private static readonly string[] _fbxHandBoneNames =
+	private static readonly string[] _fbxBoneNames =
 	{
 		"wrist",
 		"forearm_stub",
@@ -53,7 +49,7 @@ public class OVRCustomSkeleton : OVRSkeleton
 		"pinky3"
 	};
 
-	private static readonly string[] _fbxHandFingerNames =
+	private static readonly string[] _fbxFingerNames =
 	{
 		"thumb",
 		"index",
@@ -61,9 +57,10 @@ public class OVRCustomSkeleton : OVRSkeleton
 		"ring",
 		"pinky"
 	};
+	private static readonly string[] _handPrefix = { "l_", "r_" };
 #endif
 
-	public List<Transform> CustomBones { get { return _customBones_V2; } }
+	public List<Transform> CustomBones { get { return _customBones; } }
 
 #if UNITY_EDITOR
 	public void TryAutoMapBonesByName()
@@ -80,7 +77,7 @@ public class OVRCustomSkeleton : OVRSkeleton
 
 				if (t != null)
 				{
-					_customBones_V2[(int)bi] = t;
+					_customBones[(int)bi] = t;
 				}
 			}
 		}
@@ -88,42 +85,30 @@ public class OVRCustomSkeleton : OVRSkeleton
 
 	private static string FbxBoneNameFromBoneId(SkeletonType skeletonType, BoneId bi)
 	{
+		if (bi >= BoneId.Hand_ThumbTip && bi <= BoneId.Hand_PinkyTip)
 		{
-			if (bi >= BoneId.Hand_ThumbTip && bi <= BoneId.Hand_PinkyTip)
-			{
-				return _fbxHandSidePrefix[(int)skeletonType] + _fbxHandFingerNames[(int)bi - (int)BoneId.Hand_ThumbTip] + "_finger_tip_marker";
-			}
-			else
-			{
-				return _fbxHandBonePrefix + _fbxHandSidePrefix[(int)skeletonType] + _fbxHandBoneNames[(int)bi];
-			}
+			return _handPrefix[(int)skeletonType] + _fbxFingerNames[(int)bi - (int)BoneId.Hand_ThumbTip] + "_finger_tip_marker";
+		}
+		else
+		{
+			return "b_" + _handPrefix[(int)skeletonType] + _fbxBoneNames[(int)bi];
 		}
 	}
+
+
 #endif
 
-	protected override void InitializeBones()
+	protected override void InitializeBones(OVRPlugin.Skeleton skeleton)
 	{
-		bool flipX = (_skeletonType == SkeletonType.HandLeft || _skeletonType == SkeletonType.HandRight);
+		_bones = new List<OVRBone>(new OVRBone[skeleton.NumBones]);
+		Bones = _bones.AsReadOnly();
 
-		if (_bones == null || _bones.Count != _skeleton.NumBones)
+		for (int i = 0; i < skeleton.NumBones; ++i)
 		{
-			_bones = new List<OVRBone>(new OVRBone[_skeleton.NumBones]);
-			Bones = _bones.AsReadOnly();
-		}
-
-		for (int i = 0; i < _bones.Count; ++i)
-		{
-			OVRBone bone = _bones[i] ?? (_bones[i] = new OVRBone());
-			bone.Id = (OVRSkeleton.BoneId)_skeleton.Bones[i].Id;
-			bone.ParentBoneIndex = _skeleton.Bones[i].ParentBoneIndex;
-			bone.Transform = _customBones_V2[(int)bone.Id];
-
-			if (_applyBoneTranslations)
-			{
-				bone.Transform.localPosition = flipX ? _skeleton.Bones[i].Pose.Position.FromFlippedXVector3f() : _skeleton.Bones[i].Pose.Position.FromFlippedZVector3f();
-			}
-
-			bone.Transform.localRotation = flipX ? _skeleton.Bones[i].Pose.Orientation.FromFlippedXQuatf() : _skeleton.Bones[i].Pose.Orientation.FromFlippedZQuatf();
+			BoneId id = (BoneId)skeleton.Bones[i].Id;
+			short parentIdx = skeleton.Bones[i].ParentBoneIndex;
+			Transform t = _customBones[(int)id];
+			_bones[i] = new OVRBone(id, parentIdx, t);
 		}
 	}
 }

@@ -1,0 +1,8 @@
+
+Changes made after User Evaluation:
+
+1. Among the 5 object interaction methods, 1 was chosen and then changed according to user feedback.
+
+2. Load/Delete buttons were too close to the stored scenes dropdown menu. After seeing several mistakes due to this, the buttons were pushed further below.
+
+3. Some users found text inside menus difficult to read, so global menu size was increased 20%.

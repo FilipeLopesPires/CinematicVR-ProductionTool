@@ -5,7 +5,8 @@ using UnityEngine;
 public class SpawnItem : MonoBehaviour {
 
     public GameObject spawnPosition;
-    public HandMenuInteraction handMenuInteraction;
+    public HandMenu_Playground handMenu;
+
     // Start and Update Functions
 
     void Start() {
@@ -20,15 +21,16 @@ public class SpawnItem : MonoBehaviour {
 
     public void Spawn(GameObject item) {
         
-       if(!item && !handMenuInteraction){
+       if(!item && !handMenu){
            //Debug.Log("Failed to ")
            return;
        }
         GameObject instantiatedObject = Instantiate(item, spawnPosition.transform.position, Quaternion.identity);
         instantiatedObject.SetActive(true);
-       // instantiatedObject.tag = +"";
-       if(handMenuInteraction != null)
-        handMenuInteraction.addObject(item,instantiatedObject);
+        // instantiatedObject.tag = +"";
+        if(handMenu != null) {
+            handMenu.addObject(item,instantiatedObject);
+        }
         
         Debug.Log("Creating object");
         //SaveLoad.control.Save();

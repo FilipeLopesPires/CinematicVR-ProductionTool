@@ -8,7 +8,6 @@ using System.IO;
 
 using UnityEngine;
 using UnityEditor;
-
 public class OVRBundleTool : EditorWindow
 {
 	private static List<EditorSceneInfo> buildableScenes;
@@ -65,21 +64,6 @@ public class OVRBundleTool : EditorWindow
 			buildStatus = SceneBundleStatus.UNKNOWN;
 		}
 	}
-
-	private enum GuiAction
-	{
-		None,
-		OpenBuildSettingsWindow,
-		BuildAndDeployScenes,
-		BuildAndDeployApp,
-		ClearDeviceBundles,
-		ClearLocalBundles,
-		LaunchApp,
-		UninstallApk,
-		ClearLog,
-	}
-
-	private GuiAction action = GuiAction.None;
 
 	private static ApkStatus currentApkStatus;
 
@@ -148,7 +132,7 @@ public class OVRBundleTool : EditorWindow
 			var buildSettingBtnRt = GUILayoutUtility.GetRect(buildSettingsBtnTxt, GUI.skin.button, GUILayout.Width(150));
 			if (GUI.Button(buildSettingBtnRt, buildSettingsBtnTxt))
 			{
-				action = GuiAction.OpenBuildSettingsWindow;
+				OpenBuildSettingsWindow();
 			}
 		}
 		else
@@ -175,7 +159,25 @@ public class OVRBundleTool : EditorWindow
 				var sceneBtnRt = GUILayoutUtility.GetRect(sceneBtnTxt, GUI.skin.button, GUILayout.Width(200));
 				if (GUI.Button(sceneBtnRt, sceneBtnTxt))
 				{
-					action = GuiAction.BuildAndDeployScenes;
+					// Check the latest transition apk status
+					CheckForTransitionAPK();
+					// Show a dialog to prompt for building and deploying transition APK
+					if (currentApkStatus != ApkStatus.OK &&
+						EditorUtility.DisplayDialog("Build and Deploy OVR Transition APK?",
+								"OVR Transition APK status not ready, it is required to load your scene bundle for quick preview.",
+								"Yes",
+								"No"))
+					{
+						PrintLog("Building OVR Transition APK");
+						OVRBundleManager.BuildDeployTransitionAPK(useOptionalTransitionApkPackage);
+						CheckForTransitionAPK();
+					}
+
+					for (int i = 0; i < buildableScenes.Count; i++)
+					{
+						buildableScenes[i].buildStatus = SceneBundleStatus.QUEUED;
+					}
+					OVRBundleManager.BuildDeployScenes(buildableScenes, forceRestart);
 				}
 
 				GUIContent forceRestartLabel = new GUIContent("Force Restart [?]", "Relaunch the application after scene bundles are finished deploying.");
@@ -221,7 +223,8 @@ public class OVRBundleTool : EditorWindow
 			var rt = GUILayoutUtility.GetRect(btnTxt, GUI.skin.button, GUILayout.Width(200));
 			if (GUI.Button(rt, btnTxt))
 			{
-				action = GuiAction.BuildAndDeployApp;
+				OVRBundleManager.BuildDeployTransitionAPK(useOptionalTransitionApkPackage);
+				CheckForTransitionAPK();
 			}
 		}
 		EditorGUILayout.EndHorizontal();
@@ -238,14 +241,14 @@ public class OVRBundleTool : EditorWindow
 				var clearDeviceBundlesBtnRt = GUILayoutUtility.GetRect(clearDeviceBundlesTxt, GUI.skin.button, GUILayout.ExpandWidth(true));
 				if (GUI.Button(clearDeviceBundlesBtnRt, clearDeviceBundlesTxt))
 				{
-					action = GuiAction.ClearDeviceBundles;
+					OVRBundleManager.DeleteRemoteAssetBundles();
 				}
 
 				GUIContent clearLocalBundlesTxt = new GUIContent("Delete Local Bundles");
 				var clearLocalBundlesBtnRt = GUILayoutUtility.GetRect(clearLocalBundlesTxt, GUI.skin.button, GUILayout.ExpandWidth(true));
 				if (GUI.Button(clearLocalBundlesBtnRt, clearLocalBundlesTxt))
 				{
-					action = GuiAction.ClearLocalBundles;
+					OVRBundleManager.DeleteLocalAssetBundles();
 				}
 			}
 			EditorGUILayout.EndHorizontal();
@@ -256,7 +259,7 @@ public class OVRBundleTool : EditorWindow
 		{
 			EditorGUILayout.BeginHorizontal();
 			{
-				GUIContent useOptionalTransitionPackageLabel = new GUIContent("Use optional APK package name [?]",
+				GUIContent useOptionalTransitionPackageLabel = new GUIContent("Use optional APK package name [?]", 
 					"This allows both full build APK and transition APK to be installed on device. However, platform services like Entitlement check may fail.");
 
 				EditorGUILayout.LabelField(useOptionalTransitionPackageLabel, GUILayout.ExpandWidth(false));
@@ -278,27 +281,28 @@ public class OVRBundleTool : EditorWindow
 				var launchBtnRt = GUILayoutUtility.GetRect(launchBtnTxt, GUI.skin.button, GUILayout.ExpandWidth(true));
 				if (GUI.Button(launchBtnRt, launchBtnTxt))
 				{
-					action = GuiAction.LaunchApp;
+					OVRBundleManager.LaunchApplication();
 				}
 
 				var buildSettingBtnRt = GUILayoutUtility.GetRect(buildSettingsBtnTxt, GUI.skin.button, GUILayout.ExpandWidth(true));
 				if (GUI.Button(buildSettingBtnRt, buildSettingsBtnTxt))
 				{
-					action = GuiAction.OpenBuildSettingsWindow;
+					OpenBuildSettingsWindow();
 				}
 
 				GUIContent uninstallTxt = new GUIContent("Uninstall APK");
 				var uninstallBtnRt = GUILayoutUtility.GetRect(uninstallTxt, GUI.skin.button, GUILayout.ExpandWidth(true));
 				if (GUI.Button(uninstallBtnRt, uninstallTxt))
 				{
-					action = GuiAction.UninstallApk;
+					OVRBundleManager.UninstallAPK();
+					CheckForTransitionAPK();
 				}
 
 				GUIContent clearLogTxt = new GUIContent("Clear Log");
 				var clearLogBtnRt = GUILayoutUtility.GetRect(clearLogTxt, GUI.skin.button, GUILayout.ExpandWidth(true));
 				if (GUI.Button(clearLogBtnRt, clearLogTxt))
 				{
-					action = GuiAction.ClearLog;
+					PrintLog("", true);
 				}
 			}
 			EditorGUILayout.EndHorizontal();
@@ -313,61 +317,6 @@ public class OVRBundleTool : EditorWindow
 			EditorGUILayout.SelectableLabel(toolLog, logBoxStyle, GUILayout.Height(logBoxSize.y + logBoxSpacing));
 			EditorGUILayout.EndScrollView();
 		}
-	}
-
-	private void Update()
-	{
-		switch (action)
-		{
-			case GuiAction.OpenBuildSettingsWindow:
-				OpenBuildSettingsWindow();
-				break;
-			case GuiAction.BuildAndDeployScenes:
-				// Check the latest transition apk status
-				CheckForTransitionAPK();
-				// Show a dialog to prompt for building and deploying transition APK
-				if (currentApkStatus != ApkStatus.OK &&
-					EditorUtility.DisplayDialog("Build and Deploy OVR Transition APK?",
-							"OVR Transition APK status not ready, it is required to load your scene bundle for quick preview.",
-							"Yes",
-							"No"))
-				{
-					PrintLog("Building OVR Transition APK");
-					OVRBundleManager.BuildDeployTransitionAPK(useOptionalTransitionApkPackage);
-					CheckForTransitionAPK();
-				}
-
-				for (int i = 0; i < buildableScenes.Count; i++)
-				{
-					buildableScenes[i].buildStatus = SceneBundleStatus.QUEUED;
-				}
-				OVRBundleManager.BuildDeployScenes(buildableScenes, forceRestart);
-				break;
-			case GuiAction.BuildAndDeployApp:
-				OVRBundleManager.BuildDeployTransitionAPK(useOptionalTransitionApkPackage);
-				CheckForTransitionAPK();
-				break;
-			case GuiAction.ClearDeviceBundles:
-				OVRBundleManager.DeleteRemoteAssetBundles();
-				break;
-			case GuiAction.ClearLocalBundles:
-				OVRBundleManager.DeleteLocalAssetBundles();
-				break;
-			case GuiAction.LaunchApp:
-				OVRBundleManager.LaunchApplication();
-				break;
-			case GuiAction.UninstallApk:
-				OVRBundleManager.UninstallAPK();
-				CheckForTransitionAPK();
-				break;
-			case GuiAction.ClearLog:
-				PrintLog("", true);
-				break;
-			default:
-				break;
-		}
-
-		action = GuiAction.None;
 	}
 
 	private static void OpenBuildSettingsWindow()
@@ -490,7 +439,7 @@ public class OVRBundleTool : EditorWindow
 		{
 			toolLog += message + "\n";
 		}
-
+		
 		GUIContent logContent = new GUIContent(toolLog);
 		logBoxSize = logBoxStyle.CalcSize(logContent);
 

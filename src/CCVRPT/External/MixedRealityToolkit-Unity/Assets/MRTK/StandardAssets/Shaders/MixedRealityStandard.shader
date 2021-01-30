@@ -182,7 +182,7 @@ Shader "Mixed Reality Toolkit/Standard"
             #pragma shader_feature _INSTANCED_COLOR
             #pragma shader_feature _IGNORE_Z_SCALE
 
-            #define IF(a, b, c) lerp(b, c, step((fixed) (a), 0.0)); 
+            #define IF(a, b, c) lerp(b, c, step((float) (a), 0.0)); 
 
             #include "UnityCG.cginc"
             #include "UnityStandardConfig.cginc"
@@ -261,11 +261,11 @@ Shader "Mixed Reality Toolkit/Standard"
                 // Used for UGUI scaling data.
                 float2 uv3 : TEXCOORD3;
 #if defined(_VERTEX_COLORS)
-                fixed4 color : COLOR0;
+                float4 color : COLOR0;
 #endif
-                fixed3 normal : NORMAL;
+                float3 normal : NORMAL;
 #if defined(_NORMAL_MAP)
-                fixed4 tangent : TANGENT;
+                float4 tangent : TANGENT;
 #endif
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -282,13 +282,13 @@ Shader "Mixed Reality Toolkit/Standard"
                 float2 lightMapUV : TEXCOORD1;
 #endif
 #if defined(_VERTEX_COLORS)
-                fixed4 color : COLOR0;
+                float4 color : COLOR0;
 #endif
 #if defined(_SPHERICAL_HARMONICS)
-                fixed3 ambient : COLOR1;
+                float3 ambient : COLOR1;
 #endif
 #if defined(_IRIDESCENCE)
-                fixed3 iridescentColor : COLOR2;
+                float3 iridescentColor : COLOR2;
 #endif
 #if defined(_WORLD_POSITION)
 #if defined(_NEAR_PLANE_FADE)
@@ -302,15 +302,15 @@ Shader "Mixed Reality Toolkit/Standard"
 #endif
 #if defined(_NORMAL)
 #if defined(_TRIPLANAR_MAPPING)
-                fixed3 worldNormal : COLOR3;
-                fixed3 triplanarNormal : COLOR4;
+                float3 worldNormal : COLOR3;
+                float3 triplanarNormal : COLOR4;
                 float3 triplanarPosition : TEXCOORD6;
 #elif defined(_NORMAL_MAP)
-                fixed3 tangentX : COLOR3;
-                fixed3 tangentY : COLOR4;
-                fixed3 tangentZ : COLOR5;
+                float3 tangentX : COLOR3;
+                float3 tangentY : COLOR4;
+                float3 tangentZ : COLOR5;
 #else
-                fixed3 worldNormal : COLOR3;
+                float3 worldNormal : COLOR3;
 #endif
 #endif
                 UNITY_VERTEX_OUTPUT_STEREO
@@ -324,17 +324,17 @@ Shader "Mixed Reality Toolkit/Standard"
             UNITY_DEFINE_INSTANCED_PROP(float4, _Color)
             UNITY_INSTANCING_BUFFER_END(Props)
 #else
-            fixed4 _Color;
+            float4 _Color;
 #endif
             sampler2D _MainTex;
-            fixed4 _MainTex_ST;
+            float4 _MainTex_ST;
 
 #if defined(_ALPHA_CLIP)
-            fixed _Cutoff;
+            float _Cutoff;
 #endif
 
-            fixed _Metallic;
-            fixed _Smoothness;
+            float _Metallic;
+            float _Smoothness;
 
 #if defined(_CHANNEL_MAP)
             sampler2D _ChannelMap;
@@ -346,7 +346,7 @@ Shader "Mixed Reality Toolkit/Standard"
 #endif
 
 #if defined(_EMISSION)
-            fixed4 _EmissiveColor;
+            float4 _EmissiveColor;
 #endif
 
 #if defined(_USE_SSAA)
@@ -361,20 +361,20 @@ Shader "Mixed Reality Toolkit/Standard"
 #if defined(_LIGHTWEIGHT_RENDER_PIPELINE)
             CBUFFER_START(_LightBuffer)
             float4 _MainLightPosition;
-            half4 _MainLightColor;
+            float4 _MainLightColor;
             CBUFFER_END
 #else
-            fixed4 _LightColor0;
+            float4 _LightColor0;
 #endif
 #endif
 
 #if defined(_REFRACTION)
-            fixed _RefractiveIndex;
+            float _RefractiveIndex;
 #endif
 
 #if defined(_RIM_LIGHT)
-            fixed3 _RimColor;
-            fixed _RimPower;
+            float3 _RimColor;
+            float _RimPower;
 #endif
 
 #if defined(_VERTEX_EXTRUSION)
@@ -382,17 +382,17 @@ Shader "Mixed Reality Toolkit/Standard"
 #endif
 
 #if defined(_CLIPPING_PLANE)
-            fixed _ClipPlaneSide;
+            float _ClipPlaneSide;
             float4 _ClipPlane;
 #endif
 
 #if defined(_CLIPPING_SPHERE)
-            fixed _ClipSphereSide;
+            float _ClipSphereSide;
             float4 _ClipSphere;
 #endif
 
 #if defined(_CLIPPING_BOX)
-            fixed _ClipBoxSide;
+            float _ClipBoxSide;
             float4 _ClipBoxSize;
             float4x4 _ClipBoxInverseTransform;
 #endif
@@ -402,14 +402,14 @@ Shader "Mixed Reality Toolkit/Standard"
 #endif
 
 #if defined(_CLIPPING_BORDER)
-            fixed _ClippingBorderWidth;
-            fixed3 _ClippingBorderColor;
+            float _ClippingBorderWidth;
+            float3 _ClippingBorderColor;
 #endif
 
 #if defined(_NEAR_PLANE_FADE)
             float _FadeBeginDistance;
             float _FadeCompleteDistance;
-            fixed _FadeMinValue;
+            float _FadeMinValue;
 #endif
 
 #if defined(_HOVER_LIGHT) || defined(_NEAR_LIGHT_FADE)
@@ -423,7 +423,7 @@ Shader "Mixed Reality Toolkit/Standard"
 #define HOVER_LIGHT_DATA_SIZE 2
             float4 _HoverLightData[HOVER_LIGHT_COUNT * HOVER_LIGHT_DATA_SIZE];
 #if defined(_HOVER_COLOR_OVERRIDE)
-            fixed3 _HoverColorOverride;
+            float3 _HoverColorOverride;
 #endif
 #endif
 
@@ -439,54 +439,54 @@ Shader "Mixed Reality Toolkit/Standard"
 #endif
 
 #if defined(_HOVER_LIGHT) || defined(_PROXIMITY_LIGHT) || defined(_BORDER_LIGHT)
-            fixed _FluentLightIntensity;
+            float _FluentLightIntensity;
 #endif
 
 #if defined(_ROUND_CORNERS)
 #if defined(_INDEPENDENT_CORNERS)
             float4 _RoundCornersRadius; 
 #else
-            fixed _RoundCornerRadius;
+            float _RoundCornerRadius;
 #endif
-            fixed _RoundCornerMargin;
+            float _RoundCornerMargin;
 #endif
 
 #if defined(_BORDER_LIGHT)
-            fixed _BorderWidth;
-            fixed _BorderMinValue;
+            float _BorderWidth;
+            float _BorderMinValue;
 #endif
 
 #if defined(_BORDER_LIGHT_OPAQUE)
-            fixed _BorderLightOpaqueAlpha;
+            float _BorderLightOpaqueAlpha;
 #endif
 
 #if defined(_ROUND_CORNERS) || defined(_BORDER_LIGHT)
-            fixed _EdgeSmoothingValue;
+            float _EdgeSmoothingValue;
 #endif
 
 #if defined(_INNER_GLOW)
-            fixed4 _InnerGlowColor;
-            fixed _InnerGlowPower;
+            float4 _InnerGlowColor;
+            float _InnerGlowPower;
 #endif
 
 #if defined(_IRIDESCENCE)
             sampler2D _IridescentSpectrumMap;
-            fixed _IridescenceIntensity;
-            fixed _IridescenceThreshold;
-            fixed _IridescenceAngle;
+            float _IridescenceIntensity;
+            float _IridescenceThreshold;
+            float _IridescenceAngle;
 #endif
 
 #if defined(_ENVIRONMENT_COLORING)
-            fixed _EnvironmentColorThreshold;
-            fixed _EnvironmentColorIntensity;
-            fixed3 _EnvironmentColorX;
-            fixed3 _EnvironmentColorY;
-            fixed3 _EnvironmentColorZ;
+            float _EnvironmentColorThreshold;
+            float _EnvironmentColorIntensity;
+            float3 _EnvironmentColorX;
+            float3 _EnvironmentColorY;
+            float3 _EnvironmentColorZ;
 #endif
 
 #if defined(_DIRECTIONAL_LIGHT)
-            static const fixed _MinMetallicLightContribution = 0.7;
-            static const fixed _IblContribution = 0.1;
+            static const float _MinMetallicLightContribution = 0.7;
+            static const float _IblContribution = 0.1;
 #endif
 
 #if defined(_SPECULAR_HIGHLIGHTS)
@@ -514,7 +514,7 @@ Shader "Mixed Reality Toolkit/Standard"
 #endif
 
 #if defined(_PROXIMITY_LIGHT)
-            inline float ProximityLight(float4 proximityLight, float4 proximityLightParams, float4 proximityLightPulseParams, float3 worldPosition, float3 worldNormal, out fixed colorValue)
+            inline float ProximityLight(float4 proximityLight, float4 proximityLightParams, float4 proximityLightPulseParams, float3 worldPosition, float3 worldNormal, out float colorValue)
             {
                 float proximityLightDistance = dot(proximityLight.xyz - worldPosition, worldNormal);
 #if defined(_PROXIMITY_LIGHT_TWO_SIDED)
@@ -531,9 +531,9 @@ Shader "Mixed Reality Toolkit/Standard"
                 return smoothstep(1.0, 0.0, projectedProximityLightDistance / (proximityLightParams.x * max(pow(normalizedProximityLightDistance, 0.25), proximityLightParams.w))) * pulse * attenuation;
             }
 
-            inline fixed3 MixProximityLightColor(fixed4 centerColor, fixed4 middleColor, fixed4 outerColor, fixed t)
+            inline float3 MixProximityLightColor(float4 centerColor, float4 middleColor, float4 outerColor, float t)
             {
-                fixed3 color = lerp(centerColor.rgb, middleColor.rgb, smoothstep(centerColor.a, middleColor.a, t));
+                float3 color = lerp(centerColor.rgb, middleColor.rgb, smoothstep(centerColor.a, middleColor.a, t));
                 return lerp(color, outerColor, smoothstep(middleColor.a, outerColor.a, t));
             }
 #endif
@@ -544,12 +544,12 @@ Shader "Mixed Reality Toolkit/Standard"
                 return length(max(abs(position) - cornerCircleDistance, 0.0)) - cornerCircleRadius;
             }
 
-            inline fixed RoundCornersSmooth(float2 position, float2 cornerCircleDistance, float cornerCircleRadius)
+            inline float RoundCornersSmooth(float2 position, float2 cornerCircleDistance, float cornerCircleRadius)
             {
                 return smoothstep(1.0, 0.0, PointVsRoundedBox(position, cornerCircleDistance, cornerCircleRadius) / _EdgeSmoothingValue);
             }
 
-            inline fixed RoundCorners(float2 position, float2 cornerCircleDistance, float cornerCircleRadius)
+            inline float RoundCorners(float2 position, float2 cornerCircleDistance, float cornerCircleRadius)
             {
 #if defined(_TRANSPARENT)
                 return RoundCornersSmooth(position, cornerCircleDistance, cornerCircleRadius);
@@ -560,7 +560,7 @@ Shader "Mixed Reality Toolkit/Standard"
 #endif
 
 #if defined(_IRIDESCENCE)
-            fixed3 Iridescence(float tangentDotIncident, sampler2D spectrumMap, float threshold, float2 uv, float angle, float intensity)
+            float3 Iridescence(float tangentDotIncident, sampler2D spectrumMap, float threshold, float2 uv, float angle, float intensity)
             {
                 float k = tangentDotIncident * 0.5 + 0.5;
                 float4 left = tex2D(spectrumMap, float2(lerp(0.0, 1.0 - threshold, k), 0.5), float2(0.0, 0.0), float2(0.0, 0.0));
@@ -605,10 +605,10 @@ Shader "Mixed Reality Toolkit/Standard"
 #endif
 #endif
 
-                fixed3 localNormal = v.normal;
+                float3 localNormal = v.normal;
 
 #if defined(_NORMAL) || defined(_VERTEX_EXTRUSION)
-                fixed3 worldNormal = UnityObjectToWorldNormal(localNormal);
+                float3 worldNormal = UnityObjectToWorldNormal(localNormal);
 #endif
 
 #if defined(_VERTEX_EXTRUSION)
@@ -744,12 +744,12 @@ Shader "Mixed Reality Toolkit/Standard"
                 o.triplanarPosition = o.worldPosition;
 #endif
 #elif defined(_NORMAL_MAP)
-                fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
-                fixed tangentSign = v.tangent.w * unity_WorldTransformParams.w;
-                fixed3 worldBitangent = cross(worldNormal, worldTangent) * tangentSign;
-                o.tangentX = fixed3(worldTangent.x, worldBitangent.x, worldNormal.x);
-                o.tangentY = fixed3(worldTangent.y, worldBitangent.y, worldNormal.y);
-                o.tangentZ = fixed3(worldTangent.z, worldBitangent.z, worldNormal.z);
+                float3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
+                float tangentSign = v.tangent.w * unity_WorldTransformParams.w;
+                float3 worldBitangent = cross(worldNormal, worldTangent) * tangentSign;
+                o.tangentX = float3(worldTangent.x, worldBitangent.x, worldNormal.x);
+                o.tangentY = float3(worldTangent.y, worldBitangent.y, worldNormal.y);
+                o.tangentZ = float3(worldTangent.z, worldBitangent.z, worldNormal.z);
 #else
                 o.worldNormal = worldNormal;
 #endif
@@ -758,7 +758,7 @@ Shader "Mixed Reality Toolkit/Standard"
                 return o;
             }
 
-            fixed4 frag(v2f i, fixed facing : VFACE) : SV_Target
+            float4 frag(v2f i, float facing : VFACE) : SV_Target
             {
 #if defined(_INSTANCED_COLOR)
                 UNITY_SETUP_INSTANCE_ID(i);
@@ -766,8 +766,8 @@ Shader "Mixed Reality Toolkit/Standard"
 
 #if defined(_TRIPLANAR_MAPPING)
                 // Calculate triplanar uvs and apply texture scale and offset values like TRANSFORM_TEX.
-                fixed3 triplanarBlend = pow(abs(i.triplanarNormal), _TriplanarMappingBlendSharpness);
-                triplanarBlend /= dot(triplanarBlend, fixed3(1.0, 1.0, 1.0));
+                float3 triplanarBlend = pow(abs(i.triplanarNormal), _TriplanarMappingBlendSharpness);
+                triplanarBlend /= dot(triplanarBlend, float3(1.0, 1.0, 1.0));
                 float2 uvX = i.triplanarPosition.zy * _MainTex_ST.xy + _MainTex_ST.zw;
                 float2 uvY = i.triplanarPosition.xz * _MainTex_ST.xy + _MainTex_ST.zw;
                 float2 uvZ = i.triplanarPosition.xy * _MainTex_ST.xy + _MainTex_ST.zw;
@@ -781,10 +781,10 @@ Shader "Mixed Reality Toolkit/Standard"
 
             // Texturing.
 #if defined(_DISABLE_ALBEDO_MAP)
-                fixed4 albedo = fixed4(1.0, 1.0, 1.0, 1.0);
+                float4 albedo = float4(1.0, 1.0, 1.0, 1.0);
 #else
 #if defined(_TRIPLANAR_MAPPING)
-                fixed4 albedo = tex2D(_MainTex, uvX) * triplanarBlend.x + 
+                float4 albedo = tex2D(_MainTex, uvX) * triplanarBlend.x + 
                                 tex2D(_MainTex, uvY) * triplanarBlend.y + 
                                 tex2D(_MainTex, uvZ) * triplanarBlend.z;
 #else
@@ -794,14 +794,14 @@ Shader "Mixed Reality Toolkit/Standard"
                 float2 dx = ddx(i.uv.xy) * 0.25; // horizontal offset
                 float2 dy = ddy(i.uv.xy) * 0.25; // vertical offset
                 // supersampled 2x2 ordered grid
-                fixed4 albedo = 0;
+                float4 albedo = 0;
                 albedo += tex2Dbias(_MainTex, float4(i.uv.xy + dx + dy, 0.0, _MipmapBias));
                 albedo += tex2Dbias(_MainTex, float4(i.uv.xy - dx + dy, 0.0, _MipmapBias));
                 albedo += tex2Dbias(_MainTex, float4(i.uv.xy + dx - dy, 0.0, _MipmapBias));
                 albedo += tex2Dbias(_MainTex, float4(i.uv.xy - dx - dy, 0.0, _MipmapBias));
                 albedo *= 0.25;
 #else
-                fixed4 albedo = tex2D(_MainTex, i.uv);
+                float4 albedo = tex2D(_MainTex, i.uv);
 #endif
 #endif
 #endif
@@ -812,7 +812,7 @@ Shader "Mixed Reality Toolkit/Standard"
 #endif
 
 #if defined(_CHANNEL_MAP)
-                fixed4 channel = tex2D(_ChannelMap, i.uv);
+                float4 channel = tex2D(_ChannelMap, i.uv);
                 _Metallic = channel.r;
                 albedo.rgb *= channel.g;
                 _Smoothness = channel.a;
@@ -839,13 +839,13 @@ Shader "Mixed Reality Toolkit/Standard"
                 primitiveDistance = min(primitiveDistance, PointVsBox(i.worldPosition.xyz, _ClipBoxSize.xyz, _ClipBoxInverseTransform) * _ClipBoxSide);
 #endif
 #if defined(_CLIPPING_BORDER)
-                fixed3 primitiveBorderColor = lerp(_ClippingBorderColor, fixed3(0.0, 0.0, 0.0), primitiveDistance / _ClippingBorderWidth);
+                float3 primitiveBorderColor = lerp(_ClippingBorderColor, float3(0.0, 0.0, 0.0), primitiveDistance / _ClippingBorderWidth);
                 albedo.rgb += primitiveBorderColor * IF((primitiveDistance < _ClippingBorderWidth), 1.0, 0.0);
 #endif
 #endif
 
 #if defined(_DISTANCE_TO_EDGE)
-                fixed2 distanceToEdge;
+                float2 distanceToEdge;
                 distanceToEdge.x = abs(i.uv.x - 0.5) * 2.0;
                 distanceToEdge.y = abs(i.uv.y - 0.5) * 2.0;
 #endif
@@ -855,7 +855,7 @@ Shader "Mixed Reality Toolkit/Standard"
                 float2 halfScale = i.scale.xy * 0.5;
                 float2 roundCornerPosition = distanceToEdge * halfScale;
 
-                fixed currentCornerRadius;
+                float currentCornerRadius;
 
 #if defined(_INDEPENDENT_CORNERS)
 
@@ -910,32 +910,32 @@ Shader "Mixed Reality Toolkit/Standard"
 
                 // Normal calculation.
 #if defined(_NORMAL)
-                fixed3 worldViewDir = normalize(UnityWorldSpaceViewDir(i.worldPosition.xyz));
+                float3 worldViewDir = normalize(UnityWorldSpaceViewDir(i.worldPosition.xyz));
 #if defined(_REFLECTIONS) || defined(_ENVIRONMENT_COLORING)
-                fixed3 incident = -worldViewDir;
+                float3 incident = -worldViewDir;
 #endif
-                fixed3 worldNormal;
+                float3 worldNormal;
 
 #if defined(_NORMAL_MAP)
 #if defined(_TRIPLANAR_MAPPING)
-                fixed3 tangentNormalX = UnpackScaleNormal(tex2D(_NormalMap, uvX), _NormalMapScale);
-                fixed3 tangentNormalY = UnpackScaleNormal(tex2D(_NormalMap, uvY), _NormalMapScale);
-                fixed3 tangentNormalZ = UnpackScaleNormal(tex2D(_NormalMap, uvZ), _NormalMapScale);
+                float3 tangentNormalX = UnpackScaleNormal(tex2D(_NormalMap, uvX), _NormalMapScale);
+                float3 tangentNormalY = UnpackScaleNormal(tex2D(_NormalMap, uvY), _NormalMapScale);
+                float3 tangentNormalZ = UnpackScaleNormal(tex2D(_NormalMap, uvZ), _NormalMapScale);
                 tangentNormalX.x *= axisSign.x;
                 tangentNormalY.x *= axisSign.y;
                 tangentNormalZ.x *= -axisSign.z;
 
                 // Swizzle world normals to match tangent space and apply Whiteout normal blend.
-                tangentNormalX = fixed3(tangentNormalX.xy + i.worldNormal.zy, tangentNormalX.z * i.worldNormal.x);
-                tangentNormalY = fixed3(tangentNormalY.xy + i.worldNormal.xz, tangentNormalY.z * i.worldNormal.y);
-                tangentNormalZ = fixed3(tangentNormalZ.xy + i.worldNormal.xy, tangentNormalZ.z * i.worldNormal.z);
+                tangentNormalX = float3(tangentNormalX.xy + i.worldNormal.zy, tangentNormalX.z * i.worldNormal.x);
+                tangentNormalY = float3(tangentNormalY.xy + i.worldNormal.xz, tangentNormalY.z * i.worldNormal.y);
+                tangentNormalZ = float3(tangentNormalZ.xy + i.worldNormal.xy, tangentNormalZ.z * i.worldNormal.z);
 
                 // Swizzle tangent normals to match world normal and blend together.
                 worldNormal = normalize(tangentNormalX.zyx * triplanarBlend.x +
                                         tangentNormalY.xzy * triplanarBlend.y +
                                         tangentNormalZ.xyz * triplanarBlend.z);
 #else
-                fixed3 tangentNormal = UnpackScaleNormal(tex2D(_NormalMap, i.uv), _NormalMapScale);
+                float3 tangentNormal = UnpackScaleNormal(tex2D(_NormalMap, i.uv), _NormalMapScale);
                 worldNormal.x = dot(i.tangentX, tangentNormal);
                 worldNormal.y = dot(i.tangentY, tangentNormal);
                 worldNormal.z = dot(i.tangentZ, tangentNormal);
@@ -946,8 +946,8 @@ Shader "Mixed Reality Toolkit/Standard"
 #endif
 #endif
 
-                fixed pointToLight = 1.0;
-                fixed3 fluentLightColor = fixed3(0.0, 0.0, 0.0);
+                float pointToLight = 1.0;
+                float3 fluentLightColor = float3(0.0, 0.0, 0.0);
 
                 // Hover light.
 #if defined(_HOVER_LIGHT)
@@ -957,10 +957,10 @@ Shader "Mixed Reality Toolkit/Standard"
                 for (int hoverLightIndex = 0; hoverLightIndex < HOVER_LIGHT_COUNT; ++hoverLightIndex)
                 {
                     int dataIndex = hoverLightIndex * HOVER_LIGHT_DATA_SIZE;
-                    fixed hoverValue = HoverLight(_HoverLightData[dataIndex], _HoverLightData[dataIndex + 1].w, i.worldPosition.xyz);
+                    float hoverValue = HoverLight(_HoverLightData[dataIndex], _HoverLightData[dataIndex + 1].w, i.worldPosition.xyz);
                     pointToLight += hoverValue;
 #if !defined(_HOVER_COLOR_OVERRIDE)
-                    fluentLightColor += lerp(fixed3(0.0, 0.0, 0.0), _HoverLightData[dataIndex + 1].rgb, hoverValue);
+                    fluentLightColor += lerp(float3(0.0, 0.0, 0.0), _HoverLightData[dataIndex + 1].rgb, hoverValue);
 #endif
                 }
 #if defined(_HOVER_COLOR_OVERRIDE)
@@ -977,27 +977,27 @@ Shader "Mixed Reality Toolkit/Standard"
                 for (int proximityLightIndex = 0; proximityLightIndex < PROXIMITY_LIGHT_COUNT; ++proximityLightIndex)
                 {
                     int dataIndex = proximityLightIndex * PROXIMITY_LIGHT_DATA_SIZE;
-                    fixed colorValue;
-                    fixed proximityValue = ProximityLight(_ProximityLightData[dataIndex], _ProximityLightData[dataIndex + 1], _ProximityLightData[dataIndex + 2], i.worldPosition.xyz, worldNormal, colorValue);
+                    float colorValue;
+                    float proximityValue = ProximityLight(_ProximityLightData[dataIndex], _ProximityLightData[dataIndex + 1], _ProximityLightData[dataIndex + 2], i.worldPosition.xyz, worldNormal, colorValue);
                     pointToLight += proximityValue;
 #if defined(_PROXIMITY_LIGHT_COLOR_OVERRIDE)
-                    fixed3 proximityColor = MixProximityLightColor(_ProximityLightCenterColorOverride, _ProximityLightMiddleColorOverride, _ProximityLightOuterColorOverride, colorValue);
+                    float3 proximityColor = MixProximityLightColor(_ProximityLightCenterColorOverride, _ProximityLightMiddleColorOverride, _ProximityLightOuterColorOverride, colorValue);
 #else
-                    fixed3 proximityColor = MixProximityLightColor(_ProximityLightData[dataIndex + 3], _ProximityLightData[dataIndex + 4], _ProximityLightData[dataIndex + 5], colorValue);
+                    float3 proximityColor = MixProximityLightColor(_ProximityLightData[dataIndex + 3], _ProximityLightData[dataIndex + 4], _ProximityLightData[dataIndex + 5], colorValue);
 #endif  
 #if defined(_PROXIMITY_LIGHT_SUBTRACTIVE)
-                    fluentLightColor -= lerp(fixed3(0.0, 0.0, 0.0), proximityColor, proximityValue);
+                    fluentLightColor -= lerp(float3(0.0, 0.0, 0.0), proximityColor, proximityValue);
 #else
-                    fluentLightColor += lerp(fixed3(0.0, 0.0, 0.0), proximityColor, proximityValue);
+                    fluentLightColor += lerp(float3(0.0, 0.0, 0.0), proximityColor, proximityValue);
 #endif    
                 }
 #endif    
 
                 // Border light.
 #if defined(_BORDER_LIGHT)
-                fixed borderValue;
+                float borderValue;
 #if defined(_ROUND_CORNERS)
-                fixed borderMargin = _RoundCornerMargin  + _BorderWidth * 0.5;
+                float borderMargin = _RoundCornerMargin  + _BorderWidth * 0.5;
 
                 cornerCircleRadius = saturate(max(currentCornerRadius - borderMargin, 0.01)) * i.scale.z;
 
@@ -1009,11 +1009,11 @@ Shader "Mixed Reality Toolkit/Standard"
                                   smoothstep(i.uv.w - _EdgeSmoothingValue, i.uv.w + _EdgeSmoothingValue, distanceToEdge.y));
 #endif
 #if defined(_HOVER_LIGHT) && defined(_BORDER_LIGHT_USES_HOVER_COLOR) && defined(_HOVER_COLOR_OVERRIDE)
-                fixed3 borderColor = _HoverColorOverride.rgb;
+                float3 borderColor = _HoverColorOverride.rgb;
 #else
-                fixed3 borderColor = fixed3(1.0, 1.0, 1.0);
+                float3 borderColor = float3(1.0, 1.0, 1.0);
 #endif
-                fixed3 borderContribution = borderColor * borderValue * _BorderMinValue * _FluentLightIntensity;
+                float3 borderContribution = borderColor * borderValue * _BorderMinValue * _FluentLightIntensity;
 #if defined(_BORDER_LIGHT_REPLACES_ALBEDO)
                 albedo.rgb = lerp(albedo.rgb, borderContribution, borderValue);
 #else
@@ -1050,52 +1050,52 @@ Shader "Mixed Reality Toolkit/Standard"
 #else
                 float4 directionalLightDirection = _WorldSpaceLightPos0;
 #endif
-                fixed diffuse = max(0.0, dot(worldNormal, directionalLightDirection));
+                float diffuse = max(0.0, dot(worldNormal, directionalLightDirection));
 #if defined(_SPECULAR_HIGHLIGHTS)
-                fixed halfVector = max(0.0, dot(worldNormal, normalize(directionalLightDirection + worldViewDir)));
-                fixed specular = saturate(pow(halfVector, _Shininess * pow(_Smoothness, 4.0)) * (_Smoothness * 2.0) * _Metallic);
+                float halfVector = max(0.0, dot(worldNormal, normalize(directionalLightDirection + worldViewDir)));
+                float specular = saturate(pow(halfVector, _Shininess * pow(_Smoothness, 4.0)) * (_Smoothness * 2.0) * _Metallic);
 #else
-                fixed specular = 0.0;
+                float specular = 0.0;
 #endif
 #endif
 
                 // Image based lighting (attempt to mimic the Standard shader).
 #if defined(_REFLECTIONS)
-                fixed3 worldReflection = reflect(incident, worldNormal);
-                fixed4 iblData = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, worldReflection, (1.0 - _Smoothness) * UNITY_SPECCUBE_LOD_STEPS);
-                fixed3 ibl = DecodeHDR(iblData, unity_SpecCube0_HDR);
+                float3 worldReflection = reflect(incident, worldNormal);
+                float4 iblData = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, worldReflection, (1.0 - _Smoothness) * UNITY_SPECCUBE_LOD_STEPS);
+                float3 ibl = DecodeHDR(iblData, unity_SpecCube0_HDR);
 #if defined(_REFRACTION)
-                fixed4 refractColor = UNITY_SAMPLE_TEXCUBE(unity_SpecCube0, refract(incident, worldNormal, _RefractiveIndex));
+                float4 refractColor = UNITY_SAMPLE_TEXCUBE(unity_SpecCube0, refract(incident, worldNormal, _RefractiveIndex));
                 ibl *= DecodeHDR(refractColor, unity_SpecCube0_HDR);
 #endif
 #else
-                fixed3 ibl = unity_IndirectSpecColor.rgb;
+                float3 ibl = unity_IndirectSpecColor.rgb;
 #endif
 
                 // Fresnel lighting.
 #if defined(_FRESNEL)
-                fixed fresnel = 1.0 - saturate(abs(dot(worldViewDir, worldNormal)));
+                float fresnel = 1.0 - saturate(abs(dot(worldViewDir, worldNormal)));
 #if defined(_RIM_LIGHT)
-                fixed3 fresnelColor = _RimColor * pow(fresnel, _RimPower);
+                float3 fresnelColor = _RimColor * pow(fresnel, _RimPower);
 #else
-                fixed3 fresnelColor = unity_IndirectSpecColor.rgb * (pow(fresnel, _FresnelPower) * max(_Smoothness, 0.5));
+                float3 fresnelColor = unity_IndirectSpecColor.rgb * (pow(fresnel, _FresnelPower) * max(_Smoothness, 0.5));
 #endif
 #endif
                 // Final lighting mix.
-                fixed4 output = albedo;
+                float4 output = albedo;
 #if defined(_SPHERICAL_HARMONICS)
-                fixed3 ambient = i.ambient;
+                float3 ambient = i.ambient;
 #else
-                fixed3 ambient = glstate_lightmodel_ambient + fixed3(0.25, 0.25, 0.25);
+                float3 ambient = glstate_lightmodel_ambient + float3(0.25, 0.25, 0.25);
 #endif
-                fixed minProperty = min(_Smoothness, _Metallic);
+                float minProperty = min(_Smoothness, _Metallic);
 #if defined(_DIRECTIONAL_LIGHT)
-                fixed oneMinusMetallic = (1.0 - _Metallic);
+                float oneMinusMetallic = (1.0 - _Metallic);
                 output.rgb = lerp(output.rgb, ibl, minProperty);
 #if defined(_LIGHTWEIGHT_RENDER_PIPELINE)
-                fixed3 directionalLightColor = _MainLightColor.rgb;
+                float3 directionalLightColor = _MainLightColor.rgb;
 #else
-                fixed3 directionalLightColor = _LightColor0.rgb;
+                float3 directionalLightColor = _LightColor0.rgb;
 #endif
                 output.rgb *= lerp((ambient + directionalLightColor * diffuse + directionalLightColor * specular) * max(oneMinusMetallic, _MinMetallicLightContribution), albedo, minProperty);
                 output.rgb += (directionalLightColor * albedo * specular) + (directionalLightColor * specular * _Smoothness);
@@ -1125,13 +1125,13 @@ Shader "Mixed Reality Toolkit/Standard"
 
                 // Inner glow.
 #if defined(_INNER_GLOW)
-                fixed2 uvGlow = pow(distanceToEdge * _InnerGlowColor.a, _InnerGlowPower);
-                output.rgb += lerp(fixed3(0.0, 0.0, 0.0), _InnerGlowColor.rgb, uvGlow.x + uvGlow.y);
+                float2 uvGlow = pow(distanceToEdge * _InnerGlowColor.a, _InnerGlowPower);
+                output.rgb += lerp(float3(0.0, 0.0, 0.0), _InnerGlowColor.rgb, uvGlow.x + uvGlow.y);
 #endif
 
                 // Environment coloring.
 #if defined(_ENVIRONMENT_COLORING)
-                fixed3 environmentColor = incident.x * incident.x * _EnvironmentColorX +
+                float3 environmentColor = incident.x * incident.x * _EnvironmentColorX +
                                           incident.y * incident.y * _EnvironmentColorY + 
                                           incident.z * incident.z * _EnvironmentColorZ;
                 output.rgb += environmentColor * max(0.0, dot(incident, worldNormal) + _EnvironmentColorThreshold) * _EnvironmentColorIntensity;
@@ -1199,19 +1199,19 @@ Shader "Mixed Reality Toolkit/Standard"
             sampler2D _MainTex;
             sampler2D _ChannelMap;
 
-            fixed4 _Color;
-            fixed4 _EmissiveColor;
+            float4 _Color;
+            float4 _EmissiveColor;
 
 #if defined(_LIGHTWEIGHT_RENDER_PIPELINE)
             CBUFFER_START(_LightBuffer)
             float4 _MainLightPosition;
-            half4 _MainLightColor;
+            float4 _MainLightColor;
             CBUFFER_END
 #else
-            fixed4 _LightColor0;
+            float4 _LightColor0;
 #endif
 
-            half4 frag(v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
                 UnityMetaInput output;
                 UNITY_INITIALIZE_OUTPUT(UnityMetaInput, output);

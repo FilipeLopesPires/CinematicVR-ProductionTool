@@ -18,13 +18,13 @@ public class SaveLoad : MonoBehaviour {
         FileStream file = File.Create(Application.persistentDataPath +"/"+filename);
         ArrayList data = new ArrayList();
         
-
-        foreach (var key in database.Keys){
-        foreach (var item in database[key])
-        {
-            data.Add(new PlayerData(key,(GameObject)item));
-            Debug.Log($"[{((GameObject)item).transform.localScale.ToString()}]");
-        }
+        Debug.Log(database.Count);  
+        foreach (var key in database.Keys) {
+            Debug.Log(database[key].Capacity);
+            foreach (var item in database[key]) {
+                data.Add(new PlayerData(key,(GameObject)item));
+                Debug.Log($"[{((GameObject)item).transform.localScale.ToString()}]");
+            }
         }
         Debug.Log("length is "+database[0].Count);
 
@@ -35,11 +35,12 @@ public class SaveLoad : MonoBehaviour {
  
     }
     public ArrayList Load(string filename){
-         ArrayList data = null;
+
+        ArrayList data = null;
         if (File.Exists (Application.persistentDataPath + "/"+ filename)) {
             BinaryFormatter bf = new BinaryFormatter ();
             FileStream file = File.Open (Application.persistentDataPath + "/"+ filename , FileMode.Open);
-             data = (ArrayList)bf.Deserialize (file);
+            data = (ArrayList)bf.Deserialize (file);
             
             //sceneName = data.sceneName;
             file.Close ();

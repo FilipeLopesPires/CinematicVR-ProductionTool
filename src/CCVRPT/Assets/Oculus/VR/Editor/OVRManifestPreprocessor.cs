@@ -228,7 +228,6 @@ public class OVRManifestPreprocessor
                 handTrackingEntryNeeded,
                 modifyIfFound);
 
-
             // Add focus aware tag if this app is targeting Quest Family
             AddOrRemoveTag(doc,
                 androidNamepsaceURI,
@@ -245,11 +244,11 @@ public class OVRManifestPreprocessor
                 string targetDeviceValue = "quest";
                 if (OVRDeviceSelector.isTargetDeviceQuest && OVRDeviceSelector.isTargetDeviceQuest2)
                 {
-                    targetDeviceValue = "quest|quest2";
+                    targetDeviceValue = "quest|delmar";
                 }
                 else if (OVRDeviceSelector.isTargetDeviceQuest2)
                 {
-                    targetDeviceValue = "quest2";
+                    targetDeviceValue = "delmar";
                 }
                 else if (OVRDeviceSelector.isTargetDeviceQuest)
                 {

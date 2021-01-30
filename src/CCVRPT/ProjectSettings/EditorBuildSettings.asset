@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/CCVRPT/Scenes/Home.unity
+    guid: c0435113db0b1df46b6b2f6f22c2ff74
+  - enabled: 1
     path: Assets/CCVRPT/Scenes/Playground.unity
     guid: c269a9935a67ca04ca792ba3118fd401
   m_configObjects: {}

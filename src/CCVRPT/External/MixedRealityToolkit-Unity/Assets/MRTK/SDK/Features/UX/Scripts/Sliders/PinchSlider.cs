@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Microsoft.MixedReality.Toolkit.UI
 {
+
     /// <summary>
     /// A slider that can be moved by grabbing / pinching a slider thumb
     /// </summary>

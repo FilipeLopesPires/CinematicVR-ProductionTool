@@ -1,8 +1,12 @@
 /************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
-https://developer.oculus.com/licenses/oculussdk/
+Licensed under the Oculus Master SDK License Version 1.0 (the "License"); you may not use
+the Utilities SDK except in compliance with the License, which is provided at the time of installation
+or download, or which otherwise accompanies this software in either electronic or hard copy form.
+
+You may obtain a copy of the License at
+https://developer.oculus.com/licenses/oculusmastersdk-1.0/
 
 Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
 under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
@@ -18,34 +22,27 @@ using System.Collections; // required for Coroutines
 /// </summary>
 public class OVRScreenFade : MonoBehaviour
 {
-	public static OVRScreenFade instance { get; private set; }
-
-	[Tooltip("Fade duration")]
+    [Tooltip("Fade duration")]
 	public float fadeTime = 2.0f;
 
-	[Tooltip("Screen color at maximum fade")]
+    [Tooltip("Screen color at maximum fade")]
 	public Color fadeColor = new Color(0.01f, 0.01f, 0.01f, 1.0f);
 
-	public bool fadeOnStart = true;
+    public bool fadeOnStart = true;
 
 	/// <summary>
 	/// The render queue used by the fade mesh. Reduce this if you need to render on top of it.
 	/// </summary>
 	public int renderQueue = 5000;
 
-	/// <summary>
-	/// Renders the current alpha value being used to fade the screen.
-	/// </summary>
-	public float currentAlpha { get { return Mathf.Max(explicitFadeAlpha, animatedFadeAlpha, uiFadeAlpha); } }
-
-	private float explicitFadeAlpha = 0.0f;
-	private float animatedFadeAlpha = 0.0f;
-	private float uiFadeAlpha = 0.0f;
+    private float uiFadeAlpha = 0;
 
 	private MeshRenderer fadeRenderer;
 	private MeshFilter fadeMesh;
 	private Material fadeMaterial = null;
-	private bool isFading = false;
+    private bool isFading = false;
+
+    public float currentAlpha { get; private set; }
 
 	/// <summary>
 	/// Automatically starts a fade in
@@ -109,49 +106,36 @@ public class OVRScreenFade : MonoBehaviour
 
 		mesh.uv = uv;
 
-		explicitFadeAlpha = 0.0f;
-		animatedFadeAlpha = 0.0f;
-		uiFadeAlpha = 0.0f;
+		SetFadeLevel(0);
 
 		if (fadeOnStart)
 		{
-			FadeIn();
+			StartCoroutine(Fade(1, 0));
 		}
-
-		instance = this;
-	}
-
-	/// <summary>
-	/// Start a fade in
-	/// </summary>
-	public void FadeIn()
-	{
-		StartCoroutine(Fade(1.0f, 0.0f));
 	}
 
 	/// <summary>
 	/// Start a fade out
 	/// </summary>
 	public void FadeOut()
-	{
-		StartCoroutine(Fade(0,1));
-	}
+    {
+        StartCoroutine(Fade(0,1));
+    }
+
 
 	/// <summary>
 	/// Starts a fade in when a new level is loaded
 	/// </summary>
 	void OnLevelFinishedLoading(int level)
 	{
-		FadeIn();
+		StartCoroutine(Fade(1,0));
 	}
 
 	void OnEnable()
 	{
 		if (!fadeOnStart)
 		{
-			explicitFadeAlpha = 0.0f;
-			animatedFadeAlpha = 0.0f;
-			uiFadeAlpha = 0.0f;
+			SetFadeLevel(0);
 		}
 	}
 
@@ -160,8 +144,6 @@ public class OVRScreenFade : MonoBehaviour
 	/// </summary>
 	void OnDestroy()
 	{
-		instance = null;
-
 		if (fadeRenderer != null)
 			Destroy(fadeRenderer);
 
@@ -172,24 +154,23 @@ public class OVRScreenFade : MonoBehaviour
 			Destroy(fadeMesh);
 	}
 
-	/// <summary>
+    /// <summary>
 	/// Set the UI fade level - fade due to UI in foreground
 	/// </summary>
-	public void SetUIFade(float level)
-	{
-		uiFadeAlpha = Mathf.Clamp01(level);
-		SetMaterialAlpha();
-	}
-
-	/// <summary>
-	/// Override current fade level
-	/// </summary>
-	/// <param name="level"></param>
-	public void SetExplicitFade(float level)
-	{
-		explicitFadeAlpha = level;
-		SetMaterialAlpha();
-	}
+    public void SetUIFade(float level)
+    {
+        uiFadeAlpha = Mathf.Clamp01(level);
+        SetMaterialAlpha();
+    }
+    /// <summary>
+    /// Override current fade level
+    /// </summary>
+    /// <param name="level"></param>
+    public void SetFadeLevel(float level)
+    {
+        currentAlpha = level;
+        SetMaterialAlpha();
+    }
 
 	/// <summary>
 	/// Fades alpha from 1.0 to 0.0
@@ -200,29 +181,27 @@ public class OVRScreenFade : MonoBehaviour
 		while (elapsedTime < fadeTime)
 		{
 			elapsedTime += Time.deltaTime;
-			animatedFadeAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / fadeTime));
-			SetMaterialAlpha();
+            currentAlpha = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsedTime / fadeTime));
+            SetMaterialAlpha();
 			yield return new WaitForEndOfFrame();
 		}
-		animatedFadeAlpha = endAlpha;
-		SetMaterialAlpha();
 	}
 
-	/// <summary>
-	/// Update material alpha. UI fade and the current fade due to fade in/out animations (or explicit control)
-	/// both affect the fade. (The max is taken)
-	/// </summary>
-	private void SetMaterialAlpha()
-	{
+    /// <summary>
+    /// Update material alpha. UI fade and the current fade due to fade in/out animations (or explicit control)
+    /// both affect the fade. (The max is taken)
+    /// </summary>
+    private void SetMaterialAlpha()
+    {
 		Color color = fadeColor;
-		color.a = currentAlpha;
+        color.a = Mathf.Max(currentAlpha, uiFadeAlpha);
 		isFading = color.a > 0;
-		if (fadeMaterial != null)
-		{
-			fadeMaterial.color = color;
+        if (fadeMaterial != null)
+        {
+            fadeMaterial.color = color;
 			fadeMaterial.renderQueue = renderQueue;
 			fadeRenderer.material = fadeMaterial;
 			fadeRenderer.enabled = isFading;
-		}
-	}
+        }
+    }
 }

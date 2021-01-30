@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quadIcons:
   - {fileID: 2800000, guid: 74add24ce904fb14486ade1bdab25eca, type: 3}
+  - {fileID: 2800000, guid: 26820cc30e18d4e44843f64cfb965dc1, type: 3}
+  - {fileID: 2800000, guid: 65133e6f9e7d10f44a7fcd99134562d4, type: 3}
+  - {fileID: 2800000, guid: d52d31b5f9aa9604aa5f27698d61e43c, type: 3}
   spriteIcons:
   - {fileID: 955631556289086431, guid: 9d225d380d5f69447b8028a3b817f1ee, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: -7522816762604393903, guid: 9d225d380d5f69447b8028a3b817f1ee, type: 3}
+  - {fileID: -8870867987449877966, guid: 9d225d380d5f69447b8028a3b817f1ee, type: 3}
+  - {fileID: 2676043978431911310, guid: 9d225d380d5f69447b8028a3b817f1ee, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

@@ -46,7 +46,6 @@ public class OVRProjectConfig : ScriptableObject
 		HandsOnly = 2
 	}
 
-
 	public List<DeviceType> targetDeviceTypes;
 	public HandTrackingSupport handTrackingSupport;
 

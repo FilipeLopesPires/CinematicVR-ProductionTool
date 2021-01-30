@@ -562,10 +562,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4410427250870543734}
-  - component: {fileID: 2638372158462258294}
+  - component: {fileID: 2014365803815891585}
   m_Layer: 0
   m_Name: 360PanoramaCapture_OrbCamera
-  m_TagString: Untagged
+  m_TagString: VirtualVirtualCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -600,7 +600,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2638372158462258294
+--- !u!114 &2014365803815891585
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -612,25 +612,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4a67630b216244f95a642a898628e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panoramaName: filename
-  qualitySetting: 
+  panoramaName: 
+  qualitySetting: Very Low
   captureKey: 112
-  imageFormat: 1
+  imageFormat: 0
   captureStereoscopic: 0
   interpupillaryDistance: 0.0635
-  numCirclePoints: 128
-  panoramaWidth: 2048
-  antiAliasing: 2
+  numCirclePoints: 256
+  panoramaWidth: 8192
+  antiAliasing: 1
   ssaaFactor: 1
   saveImagePath: 
   saveCubemap: 0
   uploadImages: 0
   useDefaultOrientation: 0
-  useGpuTransform: 1
+  useGpuTransform: 0
   cpuMillisecondsPerFrame: 8.333333
-  captureEveryFrame: 1
+  captureEveryFrame: 0
   frameRate: 30
-  maxFramesToRecord: 30
+  maxFramesToRecord: 0
   frameNumberDigits: 6
   startSound: {fileID: 8300000, guid: 3b7a828a646174088aa48ee1db9c439c, type: 3}
   doneSound: {fileID: 8300000, guid: a22b8c429f521429084d616c68dda19a, type: 3}
@@ -645,7 +645,7 @@ MonoBehaviour:
     type: 3}
   textureToBufferShader: {fileID: 7200000, guid: d1cd5a67a32f22748a935ca069e561c0,
     type: 3}
-  enableDebugging: 0
+  enableDebugging: 1
 --- !u!1 &4149471413478144798
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,6 +27,12 @@ Production tool for VR artists and project managers, with focus on collaborative
 
 9. Select File > Build Settings > Android, on the 'Run Device' select the Oculus Quest and then click on 'Switch Platform'.
 
+10. If "Missing Project ID" error pops up, go to Window > General > Services, then click create a new link.
+
+11. If errors related to "MixedRealityStandard.shader" occur, lower your quality settings. If that does not work, check inside the shader file if all fixed<X> and half<X> are replaced by float<X>.
+
+12. When executing with "Build and Run", on Oculus Link, you can open a console and type "adb logcat -s Unity" for debugging.
+
 ## Authors:
 
 Filipe Pires
