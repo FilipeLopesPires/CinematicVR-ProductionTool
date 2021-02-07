@@ -28,6 +28,9 @@ public class HandMenu_Playground : MonoBehaviour {
     public GameObject dropdown;
     private string fileName;
 
+    // Object Variables
+    private GameObject objItem;
+
     // Start and Update Functions
 
     void Start() {
@@ -57,7 +60,8 @@ public class HandMenu_Playground : MonoBehaviour {
         QuitMenu.SetActive(false);
     }
 
-    public void addObject(GameObject item,GameObject obj){
+    public void addObject(GameObject item, GameObject obj) {
+        Debug.Log("addObject");
         Debug.Log($"{item.name} {obj.name}");
         Debug.Log($"{item.tag} {obj.tag}");
         for(int i =0;i<arr_items.Count; i++){
@@ -71,11 +75,34 @@ public class HandMenu_Playground : MonoBehaviour {
         // gameObjects.Add(obj);
     }
 
+    public void removeObject(GameObject obj) {
+        Debug.Log("removeObject");
+        // needs to be removed from database...
+        // TODO ...
+    }
+
+    public void EnableRemoveButton(GameObject btn) {
+        Debug.Log("EnableRemoveButton");
+        btn.SetActive(true);
+    }
+
+    public void DisableRemoveButton(GameObject btn) {
+        Debug.Log("DisableRemoveButton");
+        btn.SetActive(false);
+    }
+
+    public void ToggleRemoveButton(GameObject btn) {
+        Debug.Log("toggleRemoveButton");
+        Debug.Log(btn.activeSelf);
+        btn.SetActive(btn.activeSelf);
+    }
+
     // Main Menu Functions
 
     public void OpenSaveMenu() {
         Debug.Log("OpenSaveMenu");
         MainMenu.SetActive(false);
+        QuitMenu.SetActive(false);
         SaveMenu.SetActive(true);
 
         int index = 0;
@@ -83,7 +110,7 @@ public class HandMenu_Playground : MonoBehaviour {
             index++;
         }
         fileName = "PlayerInfo"+index+".dat";
-        text.transform.FindChild("Placeholder").GetComponent<TMP_Text>().text = "PlayerInfo"+index+".dat";
+        text.transform.Find("Placeholder").GetComponent<TMP_Text>().text = "PlayerInfo"+index+".dat";
         //text.GetComponent<InputField>().placeholder.GetComponent<Text>().text = "PlayerInfo"+index+".dat";
     }
 
