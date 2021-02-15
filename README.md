@@ -1,6 +1,8 @@
 # Collaborative Cinematic VR Production Tool
 Production tool for VR artists and project managers, with focus on collaborative work for cinema, made in Unity.
 
+![version1](https://github.com/FilipePires98/CCVRPT-CinematicVRProduction/blob/master/src/CCVRPT/Assets/CCVRPT/Art/Branding/CCVRPT_Branding.png)
+
 ## Repository Structure:
 
 /docs     - project documentation (presentations, reports and manuals)

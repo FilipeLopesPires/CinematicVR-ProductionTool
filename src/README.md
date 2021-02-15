@@ -65,7 +65,9 @@ Adding New Items to Inventory:
 
 10. Select the InteractableObject and, in the Inspector tab, go to the Object Manipulator script and add an element to the lists On Hover Entered and On Hover Exited. For each list item, drag the MenuContent (from the hierarchy) to it and select the corresponding function for enabling the remove button (either HandMenu_Playground.EnableRemoveButton() or HandMenu_Playground.DisableRemoveButton()). Finally, drag the Remove button (child of the current InteractableObject) to the function argument. 
 
-11. You can now save changes to the HandMenu_Playground prefab as well and it should work just fine.
+11. The latest implementation also requires you to assign a unique tag to the newly created inventory item. To do this, on the Hierarchy, scroll down to MenuContent > InventoryMenu > ScrollingObjects > ScrollingObjectCollection > Container > GridObjectCollection > (name of your new item) > ButtonContent > CompressableButtonVisuals > FrontPlate, then assign a new tag equal to both the Item and ObjectInstance GameObjects.
+
+12. You can now save changes to the HandMenu_Playground prefab as well and it should work just fine.
 
 ## Authors:
 

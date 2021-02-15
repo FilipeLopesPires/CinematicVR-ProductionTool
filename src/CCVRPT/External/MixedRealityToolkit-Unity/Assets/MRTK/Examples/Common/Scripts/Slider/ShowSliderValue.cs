@@ -16,6 +16,8 @@ namespace Microsoft.MixedReality.Toolkit.Examples.Demos
         [SerializeField]
         private TextMeshPro textMesh = null;
 
+        public int Max = 1; // Added for CCVRPT
+
         public void OnSliderUpdated(SliderEventData eventData)
         {
             if (textMesh == null)
@@ -25,7 +27,8 @@ namespace Microsoft.MixedReality.Toolkit.Examples.Demos
 
             if (textMesh != null)
             {
-                textMesh.text = $"{eventData.NewValue:F2}";
+                // textMesh.text = $"{eventData.NewValue:F2}";
+                textMesh.text = $"{( Mathf.Floor(eventData.NewValue*Max)):F0}";
             }
         }
     }

@@ -5,10 +5,8 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.SceneManagement;
- 
- 
+
 public class SaveLoad : MonoBehaviour {
-    //public GameObject[] gameObjects = new GameObject[];
     
     public static SaveLoad control = new SaveLoad();
     private string sceneName;
@@ -18,22 +16,19 @@ public class SaveLoad : MonoBehaviour {
         FileStream file = File.Create(Application.persistentDataPath +"/"+filename);
         ArrayList data = new ArrayList();
         
-        Debug.Log(database.Count);  
-        foreach (var key in database.Keys) {
-            Debug.Log(database[key].Capacity);
+        Debug.Log("N keys:"+database.Count);  
+        for(int key = 0; key< database.Count; key++) {
+            Debug.Log("length is "+database[key].Count);
             foreach (var item in database[key]) {
                 data.Add(new PlayerData(key,(GameObject)item));
-                Debug.Log($"[{((GameObject)item).transform.localScale.ToString()}]");
+                Debug.Log($" Object id [{key}] pos [{((GameObject)item).transform.position.ToString()}] scale [{((GameObject)item).transform.localScale.ToString()}] rot [{((GameObject)item).transform.rotation.ToString()}] ");
             }
         }
-        Debug.Log("length is "+database[0].Count);
 
-
-    // PlayerData data = new PlayerData ();
         bf.Serialize (file, data);
         file.Close ();
- 
     }
+
     public ArrayList Load(string filename){
 
         ArrayList data = null;
@@ -41,24 +36,22 @@ public class SaveLoad : MonoBehaviour {
             BinaryFormatter bf = new BinaryFormatter ();
             FileStream file = File.Open (Application.persistentDataPath + "/"+ filename , FileMode.Open);
             data = (ArrayList)bf.Deserialize (file);
-            
-            //sceneName = data.sceneName;
-            file.Close ();
+            file.Close();
             Debug.Log($"Length {data.Count}");
-            
         }
-
-    return data;    
+        return data;
     }
 }
+
 [Serializable]
-class PlayerData
-{
+class PlayerData {
+
     float[] pos;
     float[] rotation;
     float[] scale;
     int id;
-    public PlayerData(int id,GameObject obj){
+
+    public PlayerData(int id, GameObject obj){
         pos = new float[3];
         scale = new float[3];
         rotation = new float[4];
@@ -78,15 +71,19 @@ class PlayerData
        // mesh = obj.GetComponent<MeshFilter>().mesh.;
         
     }
+
     public float[] getPos(){
         return pos;
     }
-     public float[] getRot(){
+
+    public float[] getRot(){
         return rotation;
     }
-     public float[] getScale(){
+
+    public float[] getScale(){
         return scale;
     }
+    
     public int getId(){
         return id;
     }

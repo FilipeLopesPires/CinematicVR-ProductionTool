@@ -19,9 +19,10 @@ public class RemoveItem : MonoBehaviour {
     // Spawn Functions 
 
     public void Remove(GameObject item) {
+        Debug.Log("Removing object");
         
         if(!item && !handMenu){
-            //Debug.Log("Failed to ")
+            Debug.Log("Failed to remove object");
             return;
         }
         
@@ -30,6 +31,5 @@ public class RemoveItem : MonoBehaviour {
         }
         Destroy(item);
         
-        Debug.Log("Removing object");
     }
 }

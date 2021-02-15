@@ -20,19 +20,17 @@ public class SpawnItem : MonoBehaviour {
     // Spawn Functions 
 
     public void Spawn(GameObject item) {
+        Debug.Log("Creating object");
         
-       if(!item && !handMenu){
-           //Debug.Log("Failed to ")
-           return;
-       }
+        if(!item && !handMenu){
+            Debug.Log("Failed to spawn item");
+            return;
+        }
+
         GameObject instantiatedObject = Instantiate(item, spawnPosition.transform.position, Quaternion.identity);
         instantiatedObject.SetActive(true);
-        // instantiatedObject.tag = +"";
         if(handMenu != null) {
             handMenu.addObject(item,instantiatedObject);
         }
-        
-        Debug.Log("Creating object");
-        //SaveLoad.control.Save();
     }
 }
