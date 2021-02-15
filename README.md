@@ -11,42 +11,6 @@ Production tool for VR artists and project managers, with focus on collaborative
 
 /licenses - applicable licenses
 
-## Under Development:
-
-### Home Menu UI:
-
-- [x] Create
-
-- [x] Quit
-
-- [ ] Load
-
-### Recording UI:
-
-- [ ] Select destination
-
-- [ ] Define recording configurations
-
-- [ ] Start/Stop recording
-
-### Virtual Virtual Cameras:
-
-- [ ] 360 camera implementation
-
-- [ ] Camera manipulation
-
-- [ ] Start/Stop recording
-
-### Presentation:
-
-- [x] Logo
-
-- [ ] Demo video
-
-- [ ] Powerpoint
-
-- [ ] Documentation
-
 ## Done:
 
 - [x] UI Prototype
@@ -61,7 +25,13 @@ Production tool for VR artists and project managers, with focus on collaborative
 
 - [x] In-Game Menu UI (basic composition, save/load/home/inventory/recording/quit UIs)
 
+- [x] Home Menu UI (create, load, quit UIs)
+
 - [x] Inventory UI (list, spawn)
+
+- [x] Recording UI (configure framerate and video length, start/stop recording, capture panorama)
+
+- [x] Demo Video (visible in Home Scene), Project Presentation, updated Documentation
 
 ## Future Work:
 
