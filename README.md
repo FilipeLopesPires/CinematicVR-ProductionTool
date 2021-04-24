@@ -3,6 +3,30 @@ Production tool for VR artists and project managers, with focus on collaborative
 
 ![version1](https://github.com/FilipePires98/CCVRPT-CinematicVRProduction/blob/master/src/CCVRPT/Assets/CCVRPT/Art/Branding/CCVRPT_Branding.png)
 
+![](https://img.shields.io/badge/Academical%20Project-Yes-success)
+[![](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
+![](https://img.shields.io/badge/Made%20With-Unity-blue)
+[![](https://img.shields.io/badge/Hardware-Oculus%20Quest-blue)](https://www.oculus.com/experiences/quest/)
+![](https://img.shields.io/badge/License-MIT-lightgrey)
+
+## Description:
+
+Idea: to develop a tool that can be used by VR artists for the creation of scenarios and capture of virtual 360 videos.
+
+Purpose: provide means to study whether artists should create in traditional 2D environments or benefit from creating inside 3D space.
+
+Goal: to implement fundamental features that prove the concept.
+
+Tools Used:
+- Unity Engine
+- Oculus Quest Integration
+- Visual Studio Code
+- Android Debugging Bridge
+- Mixed Reality Toolkit
+- TextMesh Pro
+- VR Cinema Package
+- Skeleton / Orb 3D Models
+
 ## Repository Structure:
 
 /docs     - project documentation (presentations, reports and manuals)
@@ -11,27 +35,38 @@ Production tool for VR artists and project managers, with focus on collaborative
 
 /licenses - applicable licenses
 
-## Done:
+## Implemented Features:
 
-- [x] UI Prototype
+- Locomotion: walking + teleportation
+- Interaction: spawn/delete, point, select/grab (near + far), translate, rotate, scale
 
-- [x] Oculus Quest Support
+![Interaction](https://github.com/FilipePires98/CinematicVR-ProductionTool/blob/master/docs/GIFs/Interaction.gif)
 
-- [x] Interaction (teleport, hand-tracking + controllers, translate/rotate/scale, select/delete)
+- UI: “hand-palette” style, follows hand, only appears when desired
+- Inventory: static objects, virtual virtual cameras, lighting
 
-- [x] Home Scene (environment, demo video projection)
+![Inventory](https://github.com/FilipePires98/CinematicVR-ProductionTool/blob/master/docs/GIFs/Inventory.gif)
 
-- [x] Controls Instructions (available in Home Scene)
+- Recording: 360 panorama image sequences
 
-- [x] In-Game Menu UI (basic composition, save/load/home/inventory/recording/quit UIs)
+![Recording](https://github.com/FilipePires98/CinematicVR-ProductionTool/blob/master/docs/GIFs/Record360Video.gif)
 
-- [x] Home Menu UI (create, load, quit UIs)
+- Collaboration: save + load scene files
 
-- [x] Inventory UI (list, spawn)
+![SaveAndLoad](https://github.com/FilipePires98/CinematicVR-ProductionTool/blob/master/docs/GIFs/SaveAndLoad.gif)
 
-- [x] Recording UI (configure framerate and video length, start/stop recording, capture panorama)
+## User Evaluation:
 
-- [x] Demo Video (visible in Home Scene), Project Presentation, updated Documentation
+Method:
+- Goal: determine how easy it is to interact w/ system
+- Persona addressed: 3D artist / content creator
+- Tasks: (1) choosing best manipulation, (2) building something
+- 8 participants (3 women, 3 experienced w/ VR, 18-55 y.o.)
+- Post-task (subjective/opinion) questions
+
+Results:
+- Quantitative Analysis: all tasks execution time 5:35-18:33min; avg. time w/ controllers 8-9min; avg. time w/ hands 9-10min.
+- Qualitative Analysis:	experienced users take far more advantage; hand tracking is a bit slower but “more satisfying”.
 
 ## Future Work:
 
@@ -47,6 +82,7 @@ Production tool for VR artists and project managers, with focus on collaborative
 
 ## Authors:
 
-Filipe Pires
+The authors of this repository are Filipe Pires and Isaac dos Anjos, and the project was developed for the Virtual and Augmented Reality Course of the Master's degree in Informatics Engineering of the University of Aveiro.
 
-Isaac dos Anjos
+For further information, please contact us at filipesnetopires@ua.pt.
+
