@@ -84,5 +84,5 @@ Results:
 
 The authors of this repository are Filipe Pires and Isaac dos Anjos, and the project was developed for the Virtual and Augmented Reality Course of the Master's degree in Informatics Engineering of the University of Aveiro.
 
-For further information, please contact us at filipesnetopires@ua.pt.
+For further information, please contact us at fsnap@protonmail.com.
 
